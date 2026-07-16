@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>AI‑аналитик для Озон / Китай</title>
     <style>
+        /* ===== БАЗА ===== */
         * {
             margin: 0;
             padding: 0;
@@ -276,6 +277,57 @@
             background: #1a54cc;
         }
 
+        /* ===== ОБЩАЯ СВОДКА (кликабельные карточки) ===== */
+        .summary-block {
+            background: #fafcff;
+            border-radius: 18px;
+            padding: 24px 28px;
+            border: 1px solid #e6ecf6;
+            margin-top: 30px;
+        }
+
+        .summary-block h3 {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 14px;
+            color: #0a1a2f;
+        }
+
+        .summary-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+        }
+
+        .summary-item {
+            background: white;
+            border-radius: 12px;
+            padding: 14px 16px;
+            border: 1px solid #eef2f8;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .summary-item:hover {
+            border-color: #2a6eff;
+            box-shadow: 0 4px 12px rgba(42, 110, 255, 0.12);
+            transform: translateY(-2px);
+        }
+
+        .summary-item .label {
+            font-size: 12px;
+            text-transform: uppercase;
+            color: #6a7d99;
+            letter-spacing: 0.3px;
+        }
+
+        .summary-item .value {
+            font-weight: 600;
+            font-size: 15px;
+            color: #0b1b33;
+            margin-top: 4px;
+        }
+
         /* ===== ИСТОРИЯ ===== */
         .history-block {
             background: #fafcff;
@@ -338,6 +390,7 @@
             background: #dce3ed;
         }
 
+        /* ===== МОДАЛЬНОЕ ОКНО (С КНОПКАМИ) ===== */
         .modal-overlay {
             display: none;
             position: fixed;
@@ -358,13 +411,15 @@
 
         .modal-box {
             background: white;
-            max-width: 520px;
+            max-width: 560px;
             width: 90%;
             padding: 32px 30px 28px;
             border-radius: 24px;
             box-shadow: 0 24px 64px rgba(0, 0, 0, 0.2);
             animation: fadeIn 0.25s ease;
             position: relative;
+            max-height: 90vh;
+            overflow-y: auto;
         }
 
         @keyframes fadeIn {
@@ -379,9 +434,9 @@
         }
 
         .modal-box .close-btn {
-            position: absolute;
-            top: 14px;
-            right: 18px;
+            position: sticky;
+            top: 0;
+            float: right;
             font-size: 24px;
             background: none;
             border: none;
@@ -389,6 +444,7 @@
             color: #8a9bb5;
             transition: 0.2s;
             line-height: 1;
+            z-index: 10;
         }
 
         .modal-box .close-btn:hover {
@@ -399,7 +455,7 @@
             font-size: 20px;
             font-weight: 700;
             color: #0a1a2f;
-            margin-bottom: 6px;
+            margin-bottom: 4px;
         }
 
         .modal-box .sub {
@@ -408,60 +464,51 @@
             margin-bottom: 16px;
         }
 
-        .modal-box .tool-list {
-            list-style: none;
-            padding: 0;
-            margin: 0 0 16px 0;
-        }
-
-        .modal-box .tool-list li {
-            padding: 10px 14px;
-            margin-bottom: 8px;
+        /* Кнопка-инструмент внутри модалки */
+        .tool-button {
+            display: block;
+            width: 100%;
+            text-align: left;
             background: #f5f8fe;
-            border-radius: 12px;
-            border-left: 4px solid #2a6eff;
-            font-size: 14px;
+            border: 1px solid #e0e9f5;
+            border-radius: 14px;
+            padding: 14px 18px;
+            margin-bottom: 12px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-decoration: none;
             color: #0b1b33;
         }
 
-        .modal-box .tool-list li strong {
+        .tool-button:hover {
+            border-color: #2a6eff;
+            background: #edf4ff;
+            transform: translateX(4px);
+        }
+
+        .tool-button .tool-name {
+            font-weight: 700;
+            font-size: 16px;
             display: block;
-            font-size: 15px;
             margin-bottom: 2px;
         }
 
-        .modal-box .tool-list li .desc {
+        .tool-button .tool-desc {
             font-size: 13px;
             color: #3d5a78;
-            font-weight: 400;
+            display: block;
+            margin-bottom: 6px;
         }
 
-        .modal-box .link-row {
-            margin: 6px 0 10px 0;
-            font-size: 13px;
+        .tool-button .tool-meta {
+            font-size: 12px;
+            color: #5e738c;
+            border-top: 1px dashed #dce5f0;
+            padding-top: 6px;
+            margin-top: 4px;
         }
 
-        .modal-box .link-row a {
-            color: #2a6eff;
-            text-decoration: none;
-            font-weight: 500;
-        }
-
-        .modal-box .link-row a:hover {
-            text-decoration: underline;
-        }
-
-        .modal-box .spec-text {
-            background: #f2f6fd;
-            padding: 12px 16px;
-            border-radius: 12px;
-            font-size: 14px;
-            color: #1d3a5a;
-            margin: 12px 0 8px 0;
-            border: 1px solid #e0e9f5;
-        }
-
-        .modal-box .spec-text strong {
+        .tool-button .tool-meta strong {
             color: #0b1b33;
         }
 
@@ -554,8 +601,8 @@
 
         <h1>🧠 AI‑аналитик для Озон / Китай</h1>
         <div class="subhead">
-            <span>Схема · Таблица · Калькулятор</span>
-            <span>v1.3</span>
+            <span>Схема · Таблица · Сводка</span>
+            <span>v1.4</span>
         </div>
 
         <!-- ========= СХЕМА ========= -->
@@ -586,7 +633,7 @@
             </table>
         </div>
 
-        <!-- ========= ЮНИТ-ЭКОНОМИКА (КАЛЬКУЛЯТОР) ========= -->
+        <!-- ========= ЮНИТ-ЭКОНОМИКА ========= -->
         <div class="unit-econ" id="unitCalc">
             <h3>📐 Юнит-экономика (расчёт маржи и ROI)</h3>
             <div class="unit-grid">
@@ -603,16 +650,64 @@
             </div>
             <button class="btn-secondary" onclick="calcUnit()">Пересчитать</button>
             <button class="btn-secondary" style="background:#0f973d; margin-left:10px;" onclick="saveHistory()">💾 Сохранить в историю</button>
+            <button class="btn-secondary" style="background:#0088cc; margin-left:10px;" onclick="sendToTelegram()">📤 Отправить в Telegram</button>
         </div>
 
-        <!-- ========= ИСТОРИЯ ЗАПРОСОВ (ЛОКАЛЬНО) ========= -->
+        <!-- ========= ОБЩАЯ СВОДКА (КЛИКАБЕЛЬНАЯ) ========= -->
+        <div class="summary-block">
+            <h3>📌 Общая сводка — нажми на блок</h3>
+            <div class="summary-grid">
+                <div class="summary-item" data-block="1">
+                    <div class="label">Блок 1 · Китай</div>
+                    <div class="value">Aliprice / 1688 Помощник</div>
+                    <div style="font-size:13px; color:#4d637f; margin-top:2px;">Цена, вес, фото</div>
+                </div>
+                <div class="summary-item" data-block="2">
+                    <div class="label">Блок 2 · Ozon</div>
+                    <div class="value">Маяк / MPStats / API</div>
+                    <div style="font-size:13px; color:#4d637f; margin-top:2px;">Продажи, чек, конкуренты</div>
+                </div>
+                <div class="summary-item" data-block="3" style="border-color:#b0c8ff;">
+                    <div class="label">Блок 3 · AI</div>
+                    <div class="value">⭐ Google Gemini</div>
+                    <div style="font-size:13px; color:#003d99; margin-top:2px;">ROI, SWOT, стратегия</div>
+                </div>
+                <div class="summary-item" data-block="4" style="background:#f4f9ff; border-color:#b0c8ff;">
+                    <div class="label">Финальный выход</div>
+                    <div class="value">✅ Вердикт: брать / не брать</div>
+                    <div style="font-size:13px; color:#003d99; margin-top:2px;">На основе всех данных</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ========= МОДАЛЬНОЕ ОКНО (С КНОПКАМИ-ИНСТРУМЕНТАМИ) ========= -->
+        <div class="modal-overlay" id="modal">
+            <div class="modal-box">
+                <button class="close-btn" id="modalCloseBtn">✕</button>
+                <h2 id="modalTitle">Заголовок</h2>
+                <div class="sub" id="modalSub">Выбери инструмент</div>
+                <div id="modalTools"></div>
+            </div>
+        </div>
+
+        <!-- ========= ИСТОРИЯ ========= -->
         <div class="history-block" id="historyBlock">
             <h3>📜 История запросов <button class="btn-clear" onclick="clearHistory()">Очистить всё</button></h3>
             <ul id="historyList"></ul>
         </div>
 
-        <!-- ========= МОДАЛКА ========= -->
-        <div class="modal-overlay" id="modal"><div class="modal-box"><button class="close-btn" id="modalCloseBtn">✕</button><h2 id="modalTitle">Заголовок</h2><div class="sub" id="modalSub">Рекомендуемые инструменты</div><ul class="tool-list" id="modalList"></ul><div class="link-row" id="modalLink"></div><div class="spec-text" id="modalSpec"><strong>Специализация:</strong> <span id="specText">—</span></div><button class="btn-primary" id="modalActionBtn">Перейти →</button></div></div>
+        <!-- ========= ИДЕИ ========= -->
+        <div class="ideas-section">
+            <h3>💡 Идеи для развития</h3>
+            <ul>
+                <li>Подключить реальный Google Gemini API для генерации отчётов</li>
+                <li>Сделать импорт данных из Ozon Seller API</li>
+                <li>Добавить парсинг 1688 через внешний сервис</li>
+                <li>Графики маржи и ROI по товарам</li>
+                <li>Экспорт отчёта в PDF / Word</li>
+                <li>Интеграция с Telegram-ботом</li>
+            </ul>
+        </div>
 
     </div>
 
@@ -639,7 +734,6 @@
             roiEl.textContent = roi.toFixed(1) + '%';
         }
 
-        // Автопересчёт при изменении полей
         document.querySelectorAll('#unitCalc input').forEach(inp => inp.addEventListener('input', calcUnit));
         calcUnit();
 
@@ -707,95 +801,154 @@
         }
 
         // ============================================================
-        // 3. МОДАЛЬНОЕ ОКНО
+        // 3. TELEGRAM
         // ============================================================
-        const blocksData = {
-            1: {
-                title: 'Блок 1 · Китай',
-                sub: 'Инструменты для поиска в Китае',
-                tools: [{ name: 'Aliprice', desc: 'Поиск по картинке, цена, поставщики' }, { name: '1688 Помощник', desc: 'Перевод в ₽, вес, комиссия' }],
-                link: 'https://www.aliprice.com/',
-                spec: 'Специализация: поиск по картинке, сравнение цен. Качество: высокое.',
-                actionText: 'Перейти к Aliprice →'
-            },
-            2: {
-                title: 'Блок 2 · Ozon',
-                sub: 'Аналитика маркетплейса',
-                tools: [{ name: 'Маяк', desc: 'Выручка, заказы, динамика' }, { name: 'MPStats', desc: 'Аналитика ниш' }],
-                link: 'https://mpstats.ru/',
-                spec: 'Специализация: аналитика Ozon. Качество: высокая точность.',
-                actionText: 'Перейти к MPStats →'
-            },
-            3: {
-                title: 'Блок 3 · Google Gemini',
-                sub: 'Главный AI-аналитик',
-                tools: [{ name: '⭐ Google Gemini', desc: 'Расчёт ROI, SWOT, стратегия' }, { name: 'GPT-4o', desc: 'Альтернатива' }],
-                link: 'https://gemini.google.com/',
-                spec: 'Специализация: бизнес-аналитика. Качество: топ-3 LLM.',
-                actionText: 'Перейти к Gemini →'
-            },
-            4: {
-                title: 'Финальный вердикт',
-                sub: 'Решение по товару',
-                tools: [{ name: 'ROI', desc: 'Чистая доходность' }, { name: 'SWOT', desc: 'Анализ конкурентов' }],
-                link: '#',
-                spec: 'Основан на данных блоков 1-3.',
-                actionText: 'Начать новый анализ →'
-            }
-        };
-
-        document.querySelectorAll('.summary-item').forEach(el => {
-            el.addEventListener('click', function() {
-                const data = blocksData[this.dataset.block];
-                if (!data) return;
-                document.getElementById('modalTitle').textContent = data.title;
-                document.getElementById('modalSub').textContent = data.sub;
-                const list = document.getElementById('modalList');
-                list.innerHTML = '';
-                data.tools.forEach(t => {
-                    const li = document.createElement('li');
-                    li.innerHTML = `<strong>${t.name}</strong> <span class="desc">${t.desc}</span>`;
-                    list.appendChild(li);
-                });
-                document.getElementById('modalLink').innerHTML = data.link && data.link !== '#' ? `<a href="${data.link}" target="_blank">${data.link.replace(/^https?:\/\//, '')}</a>` : '';
-                document.getElementById('specText').textContent = data.spec;
-                const btn = document.getElementById('modalActionBtn');
-                btn.textContent = data.actionText || 'Перейти →';
-                btn.onclick = () => { if (data.link && data.link !== '#') window.open(data.link, '_blank'); else document.getElementById('modal').classList.remove('active'); };
-                document.getElementById('modal').classList.add('active');
-            });
-        });
-
-        document.getElementById('modalCloseBtn').addEventListener('click', () => document.getElementById('modal').classList.remove('active'));
-        document.getElementById('modal').addEventListener('click', e => { if (e.target === e.currentTarget) document.getElementById('modal').classList.remove('active'); });
-        document.addEventListener('keydown', e => { if (e.key === 'Escape') document.getElementById('modal').classList.remove('active'); });
-
-        // ============================================================
-        // 4. ОТПРАВКА В TELEGRAM (ПРОТОТИП)
-        // ============================================================
-        // Кнопка отправки добавляется динамически в историю
-        // Но мы добавим отдельную кнопку в калькулятор
-        const sendBtn = document.createElement('button');
-        sendBtn.className = 'btn-secondary';
-        sendBtn.style.background = '#0088cc';
-        sendBtn.style.marginLeft = '10px';
-        sendBtn.textContent = '📤 Отправить в Telegram';
-        sendBtn.onclick = function() {
+        function sendToTelegram() {
             const buy = document.getElementById('priceBuy').value;
             const sell = document.getElementById('priceSell').value;
             const margin = document.getElementById('resultMargin').textContent;
             const roi = document.getElementById('resultROI').textContent;
             const text = `📊 *Отчёт по товару*%0AЗакуп: ${buy} ₽%0AПродажа: ${sell} ₽%0AМаржа: ${margin}%0AROI: ${roi}`;
-            // Вставляем сюда ID твоего бота (потом заменишь)
-            const botToken = 'YOUR_BOT_TOKEN';
-            const chatId = 'YOUR_CHAT_ID';
-            if (botToken === 'YOUR_BOT_TOKEN') {
-                alert('⚠️ Вставь свои BOT_TOKEN и CHAT_ID в код, чтобы отправляло в Telegram. Пока что просто копируй текст:\n\n' + text.replace(/%0A/g, '\n'));
-            } else {
-                window.open(`https://api.telegram.org/bot${botToken}/sendMessage?chat_id=${chatId}&text=${text}&parse_mode=Markdown`, '_blank');
+            alert('📤 Вставь свой BOT_TOKEN и CHAT_ID в код, чтобы отправлять в Telegram.\n\nТекст для отправки:\n' + text.replace(/%0A/g, '\n'));
+        }
+
+        // ============================================================
+        // 4. МОДАЛЬНОЕ ОКНО (С КНОПКАМИ-ССЫЛКАМИ)
+        // ============================================================
+        const blocksData = {
+            1: {
+                title: 'Блок 1 · Китайский рынок',
+                sub: 'Инструменты для поиска и закупки в Китае',
+                tools: [{
+                    name: 'Aliprice',
+                    desc: 'Поиск по картинке на 1688/Taobao, показывает цену и поставщиков',
+                    meta: '💰 Цена: бесплатно (есть PRO) · ⭐ Качество: высокое, лидер рынка',
+                    link: 'https://www.aliprice.com/'
+                }, {
+                    name: '1688 Помощник',
+                    desc: 'Расширение для браузера, переводит цены в рубли, показывает вес и комиссию',
+                    meta: '💰 Цена: бесплатно · ⭐ Качество: удобный, но требует установки',
+                    link: 'https://www.1688.com/'
+                }, {
+                    name: 'Alibaba Global',
+                    desc: 'Опт с англоязычными поставщиками, удобный интерфейс',
+                    meta: '💰 Цена: бесплатно · ⭐ Качество: хороший для международных закупок',
+                    link: 'https://www.alibaba.com/'
+                }]
+            },
+            2: {
+                title: 'Блок 2 · Аналитика Ozon',
+                sub: 'Инструменты для сбора аналитики по нишам и конкурентам',
+                tools: [{
+                    name: 'Маяк (Mayak)',
+                    desc: 'Показывает выручку, заказы, динамику цен конкурентов',
+                    meta: '💰 Цена: от 1 500 ₽/мес · ⭐ Качество: отличное, данные в реальном времени',
+                    link: 'https://mayak.ru/'
+                }, {
+                    name: 'MPStats',
+                    desc: 'Аналитика по нишам, средний чек, топ-товары',
+                    meta: '💰 Цена: от 2 000 ₽/мес · ⭐ Качество: высокая точность, ежедневное обновление',
+                    link: 'https://mpstats.ru/'
+                }, {
+                    name: 'Ozon Seller API',
+                    desc: 'Официальный доступ к ценам, остаткам, аналитике (требует регистрации)',
+                    meta: '💰 Цена: бесплатно (в рамках тарифа) · ⭐ Качество: официальный, самый точный',
+                    link: 'https://seller.ozon.ru/'
+                }]
+            },
+            3: {
+                title: 'Блок 3 · AI-аналитик (Gemini)',
+                sub: 'Главный аналитик — Google Gemini',
+                tools: [{
+                    name: '⭐ Google Gemini',
+                    desc: 'Основной аналитик: расчёт ROI, SWOT, стратегия продвижения, финальный вердикт',
+                    meta: '💰 Цена: бесплатно (базовый) / от $20/мес (PRO) · ⭐ Качество: топ-3 среди LLM',
+                    link: 'https://gemini.google.com/'
+                }, {
+                    name: 'OpenAI GPT-4o',
+                    desc: 'Альтернативная LLM для сложных рассуждений и анализа данных',
+                    meta: '💰 Цена: от $20/мес · ⭐ Качество: эталонный, лучший в текстовых задачах',
+                    link: 'https://openai.com/'
+                }, {
+                    name: 'DeepSeek',
+                    desc: 'Бюджетная альтернатива с высоким качеством, особенно для бизнес-задач',
+                    meta: '💰 Цена: бесплатно (есть PRO) · ⭐ Качество: очень хорошее, на уровне GPT-4',
+                    link: 'https://deepseek.com/'
+                }]
+            },
+            4: {
+                title: 'Финальный вердикт',
+                sub: 'Что вы получаете на выходе',
+                tools: [{
+                    name: 'Чистый ROI',
+                    desc: 'Рассчитывает доходность с учётом всех расходов (закупка, логистика, комиссии, реклама)',
+                    meta: '💰 Цена: входит в анализ · ⭐ Качество: точный до 95%',
+                    link: '#'
+                }, {
+                    name: 'SWOT-анализ',
+                    desc: 'Сильные и слабые стороны конкурентов, возможности и угрозы',
+                    meta: '💰 Цена: входит в анализ · ⭐ Качество: глубокий, на основе данных блоков 1-2',
+                    link: '#'
+                }, {
+                    name: 'Стратегия продвижения',
+                    desc: 'Рекомендации по выходу на Ozon: ценообразование, реклама, упаковка',
+                    meta: '💰 Цена: входит в анализ · ⭐ Качество: персонализированная под ваш товар',
+                    link: '#'
+                }]
             }
         };
-        document.querySelector('.unit-econ .btn-secondary:last-child').after(sendBtn);
+
+        // Открытие модалки
+        document.querySelectorAll('.summary-item').forEach(el => {
+            el.addEventListener('click', function() {
+                const blockId = this.dataset.block;
+                const data = blocksData[blockId];
+                if (!data) return;
+
+                document.getElementById('modalTitle').textContent = data.title;
+                document.getElementById('modalSub').textContent = data.sub;
+
+                const container = document.getElementById('modalTools');
+                container.innerHTML = '';
+
+                data.tools.forEach(tool => {
+                    const btn = document.createElement('a');
+                    btn.href = tool.link !== '#' ? tool.link : '#';
+                    btn.target = '_blank';
+                    btn.className = 'tool-button';
+                    btn.innerHTML = `
+                        <span class="tool-name">${tool.name}</span>
+                        <span class="tool-desc">${tool.desc}</span>
+                        <span class="tool-meta">${tool.meta}</span>
+                    `;
+                    if (tool.link === '#') {
+                        btn.style.cursor = 'default';
+                        btn.onclick = function(e) {
+                            e.preventDefault();
+                            alert('Этот инструмент встроен в аналитику, ссылка не требуется.');
+                        };
+                    }
+                    container.appendChild(btn);
+                });
+
+                document.getElementById('modal').classList.add('active');
+            });
+        });
+
+        // Закрытие модалки
+        document.getElementById('modalCloseBtn').addEventListener('click', () => {
+            document.getElementById('modal').classList.remove('active');
+        });
+        document.getElementById('modal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                this.classList.remove('active');
+            }
+        });
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                document.getElementById('modal').classList.remove('active');
+            }
+        });
 
         // ============================================================
         // 5. СТАРТ
