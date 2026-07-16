@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>AI‑аналитик для Озон / Китай</title>
     <style>
         * {
@@ -55,7 +55,6 @@
             font-size: 14px;
         }
 
-        /* ===== СХЕМА ===== */
         .schema-block {
             background: #f8faff;
             border-radius: 20px;
@@ -141,7 +140,6 @@
             width: auto;
         }
 
-        /* ===== ТАБЛИЦА ===== */
         .table-wrap {
             overflow-x: auto;
             margin: 32px 0 44px 0;
@@ -198,47 +196,332 @@
             margin: 8px 4px 4px 0;
         }
 
-        /* ===== СВОДКА ===== */
-        .summary-block {
+        /* ===== КАЛЬКУЛЯТОР ЮНИТ-ЭКОНОМИКИ ===== */
+        .unit-econ {
+            background: #f4f9ff;
+            border-radius: 18px;
+            padding: 24px 28px;
+            margin: 32px 0;
+            border: 1px solid #d6e4f5;
+        }
+
+        .unit-econ h3 {
+            font-size: 18px;
+            margin-bottom: 16px;
+        }
+
+        .unit-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 12px;
+        }
+
+        .unit-item {
+            background: white;
+            padding: 12px 14px;
+            border-radius: 12px;
+            border: 1px solid #e6ecf6;
+        }
+
+        .unit-item label {
+            font-size: 12px;
+            color: #5e738c;
+            display: block;
+        }
+
+        .unit-item input {
+            width: 100%;
+            padding: 6px 0 6px 4px;
+            border: none;
+            border-bottom: 2px solid #dce5f0;
+            font-weight: 600;
+            font-size: 15px;
+            background: transparent;
+            outline: none;
+            transition: 0.2s;
+        }
+
+        .unit-item input:focus {
+            border-bottom-color: #2a6eff;
+        }
+
+        .unit-item .result {
+            font-weight: 700;
+            font-size: 18px;
+            color: #0b1b33;
+            margin-top: 4px;
+        }
+
+        .unit-item .result.green {
+            color: #0f973d;
+        }
+        .unit-item .result.red {
+            color: #d43f34;
+        }
+
+        .btn-secondary {
+            background: #2a6eff;
+            color: white;
+            border: none;
+            padding: 8px 20px;
+            border-radius: 30px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.2s;
+            margin-top: 12px;
+            font-size: 14px;
+        }
+
+        .btn-secondary:hover {
+            background: #1a54cc;
+        }
+
+        /* ===== ИСТОРИЯ ===== */
+        .history-block {
             background: #fafcff;
             border-radius: 18px;
             padding: 24px 28px;
             border: 1px solid #e6ecf6;
-            margin-top: 12px;
+            margin-top: 30px;
         }
 
-        .summary-block h3 {
+        .history-block h3 {
+            font-size: 18px;
+            margin-bottom: 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .history-block ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .history-block ul li {
+            padding: 10px 14px;
+            background: white;
+            border-radius: 10px;
+            border: 1px solid #eef2f8;
+            margin-bottom: 8px;
+            font-size: 14px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .history-block ul li .del-btn {
+            background: none;
+            border: none;
+            color: #a0b3cc;
+            cursor: pointer;
+            font-size: 18px;
+        }
+
+        .history-block ul li .del-btn:hover {
+            color: #d43f34;
+        }
+
+        .btn-clear {
+            background: #eef2f8;
+            border: none;
+            padding: 4px 16px;
+            border-radius: 30px;
+            font-size: 13px;
+            cursor: pointer;
+            color: #4d637f;
+        }
+
+        .btn-clear:hover {
+            background: #dce3ed;
+        }
+
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(4px);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal-box {
+            background: white;
+            max-width: 520px;
+            width: 90%;
+            padding: 32px 30px 28px;
+            border-radius: 24px;
+            box-shadow: 0 24px 64px rgba(0, 0, 0, 0.2);
+            animation: fadeIn 0.25s ease;
+            position: relative;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: scale(0.96);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .modal-box .close-btn {
+            position: absolute;
+            top: 14px;
+            right: 18px;
+            font-size: 24px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: #8a9bb5;
+            transition: 0.2s;
+            line-height: 1;
+        }
+
+        .modal-box .close-btn:hover {
+            color: #1a2a44;
+        }
+
+        .modal-box h2 {
+            font-size: 20px;
+            font-weight: 700;
+            color: #0a1a2f;
+            margin-bottom: 6px;
+        }
+
+        .modal-box .sub {
+            font-size: 14px;
+            color: #4d637f;
+            margin-bottom: 16px;
+        }
+
+        .modal-box .tool-list {
+            list-style: none;
+            padding: 0;
+            margin: 0 0 16px 0;
+        }
+
+        .modal-box .tool-list li {
+            padding: 10px 14px;
+            margin-bottom: 8px;
+            background: #f5f8fe;
+            border-radius: 12px;
+            border-left: 4px solid #2a6eff;
+            font-size: 14px;
+            color: #0b1b33;
+        }
+
+        .modal-box .tool-list li strong {
+            display: block;
+            font-size: 15px;
+            margin-bottom: 2px;
+        }
+
+        .modal-box .tool-list li .desc {
+            font-size: 13px;
+            color: #3d5a78;
+            font-weight: 400;
+        }
+
+        .modal-box .link-row {
+            margin: 6px 0 10px 0;
+            font-size: 13px;
+        }
+
+        .modal-box .link-row a {
+            color: #2a6eff;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .modal-box .link-row a:hover {
+            text-decoration: underline;
+        }
+
+        .modal-box .spec-text {
+            background: #f2f6fd;
+            padding: 12px 16px;
+            border-radius: 12px;
+            font-size: 14px;
+            color: #1d3a5a;
+            margin: 12px 0 8px 0;
+            border: 1px solid #e0e9f5;
+        }
+
+        .modal-box .spec-text strong {
+            color: #0b1b33;
+        }
+
+        .modal-box .btn-primary {
+            display: inline-block;
+            background: #2a6eff;
+            color: white;
+            font-weight: 600;
+            padding: 10px 28px;
+            border-radius: 40px;
+            border: none;
+            font-size: 14px;
+            cursor: pointer;
+            transition: 0.2s;
+            text-decoration: none;
+            margin-top: 6px;
+        }
+
+        .modal-box .btn-primary:hover {
+            background: #1a54cc;
+            transform: scale(1.01);
+        }
+
+        .ideas-section {
+            margin-top: 36px;
+            padding: 24px 28px;
+            background: linear-gradient(135deg, #f5f9ff 0%, #eaf1fe 100%);
+            border-radius: 18px;
+            border: 1px solid #d6e4f5;
+        }
+
+        .ideas-section h3 {
             font-size: 18px;
             font-weight: 700;
-            margin-bottom: 14px;
             color: #0a1a2f;
+            margin-bottom: 12px;
         }
 
-        .summary-grid {
+        .ideas-section ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 16px;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 10px 20px;
         }
 
-        .summary-item {
-            background: white;
-            border-radius: 12px;
-            padding: 14px 16px;
-            border: 1px solid #eef2f8;
+        .ideas-section ul li {
+            padding: 8px 0 8px 28px;
+            position: relative;
+            font-size: 14px;
+            color: #1a3350;
         }
 
-        .summary-item .label {
-            font-size: 12px;
-            text-transform: uppercase;
-            color: #6a7d99;
-            letter-spacing: 0.3px;
-        }
-
-        .summary-item .value {
-            font-weight: 600;
-            font-size: 15px;
-            color: #0b1b33;
-            margin-top: 4px;
+        .ideas-section ul li::before {
+            content: "💡";
+            position: absolute;
+            left: 0;
+            top: 6px;
+            font-size: 16px;
         }
 
         hr {
@@ -260,163 +543,264 @@
                 min-width: 140px;
                 padding: 14px 16px;
             }
+            .modal-box {
+                padding: 24px 18px;
+            }
         }
     </style>
 </head>
 <body>
     <div class="container">
 
-        <h1>🧠 AI-аналитик для Озон / Китай</h1>
+        <h1>🧠 AI‑аналитик для Озон / Китай</h1>
         <div class="subhead">
-            <span>Схема · Таблица · Сводка</span>
-            <span>v1.1</span>
+            <span>Схема · Таблица · Калькулятор</span>
+            <span>v1.3</span>
         </div>
 
-        <!-- ========= СХЕМА (методы и что берем) ========= -->
+        <!-- ========= СХЕМА ========= -->
         <div class="schema-block">
             <div class="schema-title">📊 Схема — что делаем и что берём</div>
-
             <div style="display:flex; flex-wrap:wrap; justify-content:center; align-items:center; gap:8px 20px;">
-                <div class="schema-card">
-                    <strong>🔍 1. ВХОД</strong>
-                    <ul>
-                        <li>Товар / идея</li>
-                        <li>Фото или ссылка</li>
-                        <li>Бюджет (опционально)</li>
-                    </ul>
-                    <div style="margin-top:8px; font-size:13px; color:#4d637f; background:#f2f6fd; padding:4px 10px; border-radius:8px;">
-                        Метод: ручной ввод / загрузка
-                    </div>
-                </div>
-
+                <div class="schema-card"><strong>🔍 1. ВХОД</strong><ul><li>Товар / идея</li><li>Фото или ссылка</li><li>Бюджет</li></ul><div style="margin-top:8px; font-size:13px; color:#4d637f; background:#f2f6fd; padding:4px 10px; border-radius:8px;">Ручной ввод</div></div>
                 <div class="arrow-symbol">→</div>
-
-                <div class="schema-card">
-                    <strong>🏷️ 2. КИТАЙ</strong>
-                    <ul>
-                        <li>Цена закупки (₽)</li>
-                        <li>Вес / объём (кг/м³)</li>
-                        <li>Фото / ссылка аналога</li>
-                    </ul>
-                    <div style="margin-top:8px; font-size:13px; color:#4d637f; background:#f2f6fd; padding:4px 10px; border-radius:8px;">
-                        Метод: Aliprice / 1688 Помощник
-                    </div>
-                </div>
-
+                <div class="schema-card"><strong>🏷️ 2. КИТАЙ</strong><ul><li>Цена закупки (₽)</li><li>Вес / объём</li><li>Фото / ссылка аналога</li></ul><div style="margin-top:8px; font-size:13px; color:#4d637f; background:#f2f6fd; padding:4px 10px; border-radius:8px;">Aliprice / 1688</div></div>
                 <div class="arrow-symbol">→</div>
-
-                <div class="schema-card">
-                    <strong>📈 3. OZON</strong>
-                    <ul>
-                        <li>Объём продаж ниши (₽)</li>
-                        <li>Средний чек / цены</li>
-                        <li>Топ-конкуренты</li>
-                    </ul>
-                    <div style="margin-top:8px; font-size:13px; color:#4d637f; background:#f2f6fd; padding:4px 10px; border-radius:8px;">
-                        Метод: Маяк / MPStats / API
-                    </div>
-                </div>
-
+                <div class="schema-card"><strong>📈 3. OZON</strong><ul><li>Объём продаж ниши</li><li>Средний чек / цены</li><li>Топ-конкуренты</li></ul><div style="margin-top:8px; font-size:13px; color:#4d637f; background:#f2f6fd; padding:4px 10px; border-radius:8px;">Маяк / API</div></div>
                 <div class="arrow-symbol">→</div>
-
-                <div class="schema-card highlight">
-                    <strong>🤖 4. AI-АНАЛИТИК</strong>
-                    <ul>
-                        <li>Чистый ROI и маржа</li>
-                        <li>SWOT-анализ</li>
-                        <li>Стратегия продвижения</li>
-                        <li>Финальный вердикт</li>
-                    </ul>
-                    <div style="margin-top:8px; font-size:13px; color:#4d637f; background:#f2f6fd; padding:4px 10px; border-radius:8px;">
-                        Метод: LLM + расчёты
-                    </div>
-                </div>
+                <div class="schema-card highlight"><strong>🤖 4. AI-АНАЛИТИК</strong><ul><li>Чистый ROI и маржа</li><li>SWOT-анализ</li><li>Стратегия</li><li>Финальный вердикт</li></ul><div style="margin-top:8px; font-size:13px; color:#4d637f; background:#f2f6fd; padding:4px 10px; border-radius:8px;">Google Gemini</div></div>
             </div>
-
-            <div style="text-align:center; margin-top:20px;">
-                <div class="verdict-box">✅ РЕШЕНИЕ: брать / не брать</div>
-            </div>
+            <div style="text-align:center; margin-top:20px;"><div class="verdict-box">✅ РЕШЕНИЕ: брать / не брать</div></div>
         </div>
 
-        <!-- ========= ТАБЛИЦА (инструменты по блокам) ========= -->
+        <!-- ========= ТАБЛИЦА ========= -->
         <h2 style="font-size:20px; font-weight:700; margin-bottom:12px;">📋 Таблица — инструменты к блокам</h2>
         <div class="table-wrap">
             <table>
-                <thead>
-                    <tr>
-                        <th>БЛОК 1<br><span style="font-weight:400; font-size:13px;">Китайский рынок</span></th>
-                        <th>БЛОК 2<br><span style="font-weight:400; font-size:13px;">Аналитика Ozon</span></th>
-                        <th>БЛОК 3<br><span style="font-weight:400; font-size:13px;">AI-аналитик</span></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>
-                            <ul>
-                                <li>Aliprice — поиск по картинке, цена, поставщики</li>
-                                <li>1688 Помощник — перевод в ₽, вес, комиссия</li>
-                                <li>Alibaba Global — опт с англоязычными</li>
-                            </ul>
-                            <div style="margin-top:10px;">
-                                <span class="tool-tag">🔧 Парсинг</span>
-                                <span class="tool-tag">📸 OCR</span>
-                            </div>
-                        </td>
-                        <td>
-                            <ul>
-                                <li>Маяк (Mayak) — выручка, заказы, динамика</li>
-                                <li>MPStats — аналитика ниш, средний чек</li>
-                                <li>Moneyplace — статистика карточек</li>
-                                <li>Ozon Seller API — официальный доступ</li>
-                            </ul>
-                            <div style="margin-top:10px;">
-                                <span class="tool-tag">📊 API</span>
-                                <span class="tool-tag">📈 Дашборды</span>
-                            </div>
-                        </td>
-                        <td>
-                            <ul>
-                                <li>OpenAI GPT-4o / DeepSeek — расчёты, SWOT</li>
-                                <li>Локальная LLM (Qwen, Mistral) — через Ollama</li>
-                                <li>Python + Google Colab — свой скрипт</li>
-                            </ul>
-                            <div style="margin-top:10px;">
-                                <span class="tool-tag">🧠 LLM</span>
-                                <span class="tool-tag">📐 Расчёты</span>
-                            </div>
-                        </td>
-                    </tr>
-                </tbody>
+                <thead><tr><th>БЛОК 1<br><span style="font-weight:400; font-size:13px;">Китайский рынок</span></th><th>БЛОК 2<br><span style="font-weight:400; font-size:13px;">Аналитика Ozon</span></th><th>БЛОК 3<br><span style="font-weight:400; font-size:13px;">AI-аналитик</span></th></tr></thead>
+                <tbody><tr>
+                    <td><ul><li>Aliprice — поиск по картинке</li><li>1688 Помощник — перевод в ₽</li><li>Alibaba Global — опт</li></ul><div style="margin-top:10px;"><span class="tool-tag">🔧 Парсинг</span><span class="tool-tag">📸 OCR</span></div></td>
+                    <td><ul><li>Маяк (Mayak) — выручка, заказы</li><li>MPStats — аналитика ниш</li><li>Moneyplace — статистика</li><li>Ozon Seller API</li></ul><div style="margin-top:10px;"><span class="tool-tag">📊 API</span><span class="tool-tag">📈 Дашборды</span></div></td>
+                    <td><ul><li><strong>Google Gemini</strong> — главный аналитик</li><li>OpenAI GPT-4o / DeepSeek</li><li>Локальная LLM (Ollama)</li></ul><div style="margin-top:10px;"><span class="tool-tag">🧠 Gemini</span><span class="tool-tag">📐 Расчёты</span></div></td>
+                </tr></tbody>
             </table>
         </div>
 
-        <!-- ========= ОБЩАЯ СВОДКА ========= -->
-        <div class="summary-block">
-            <h3>📌 Общая сводка</h3>
-            <div class="summary-grid">
-                <div class="summary-item">
-                    <div class="label">Блок 1 · Китай</div>
-                    <div class="value">Aliprice / 1688 Помощник</div>
-                    <div style="font-size:13px; color:#4d637f; margin-top:2px;">Цена, вес, фото</div>
-                </div>
-                <div class="summary-item">
-                    <div class="label">Блок 2 · Ozon</div>
-                    <div class="value">Маяк / MPStats / API</div>
-                    <div style="font-size:13px; color:#4d637f; margin-top:2px;">Продажи, чек, конкуренты</div>
-                </div>
-                <div class="summary-item">
-                    <div class="label">Блок 3 · AI</div>
-                    <div class="value">GPT / локальная LLM</div>
-                    <div style="font-size:13px; color:#4d637f; margin-top:2px;">ROI, SWOT, стратегия</div>
-                </div>
-                <div class="summary-item" style="background:#f4f9ff; border-color:#b0c8ff;">
-                    <div class="label">Финальный выход</div>
-                    <div class="value">✅ Вердикт: брать / не брать</div>
-                    <div style="font-size:13px; color:#003d99; margin-top:2px;">На основе всех данных</div>
+        <!-- ========= ЮНИТ-ЭКОНОМИКА (КАЛЬКУЛЯТОР) ========= -->
+        <div class="unit-econ" id="unitCalc">
+            <h3>📐 Юнит-экономика (расчёт маржи и ROI)</h3>
+            <div class="unit-grid">
+                <div class="unit-item"><label>Цена закупки (₽)</label><input type="number" id="priceBuy" value="500" step="1" /></div>
+                <div class="unit-item"><label>Цена продажи (₽)</label><input type="number" id="priceSell" value="1200" step="1" /></div>
+                <div class="unit-item"><label>Логистика (₽)</label><input type="number" id="logistics" value="150" step="1" /></div>
+                <div class="unit-item"><label>Комиссия Ozon (%)</label><input type="number" id="commission" value="15" step="0.5" /></div>
+                <div class="unit-item"><label>Реклама (₽)</label><input type="number" id="advertising" value="50" step="1" /></div>
+                <div class="unit-item" style="background:#f4f9ff; border-color:#b0c8ff;">
+                    <label>📊 Итоговая маржа</label>
+                    <div class="result green" id="resultMargin">0 ₽</div>
+                    <div style="font-size:13px; color:#4d637f;">ROI: <span id="resultROI">0%</span></div>
                 </div>
             </div>
+            <button class="btn-secondary" onclick="calcUnit()">Пересчитать</button>
+            <button class="btn-secondary" style="background:#0f973d; margin-left:10px;" onclick="saveHistory()">💾 Сохранить в историю</button>
         </div>
 
+        <!-- ========= ИСТОРИЯ ЗАПРОСОВ (ЛОКАЛЬНО) ========= -->
+        <div class="history-block" id="historyBlock">
+            <h3>📜 История запросов <button class="btn-clear" onclick="clearHistory()">Очистить всё</button></h3>
+            <ul id="historyList"></ul>
+        </div>
+
+        <!-- ========= МОДАЛКА ========= -->
+        <div class="modal-overlay" id="modal"><div class="modal-box"><button class="close-btn" id="modalCloseBtn">✕</button><h2 id="modalTitle">Заголовок</h2><div class="sub" id="modalSub">Рекомендуемые инструменты</div><ul class="tool-list" id="modalList"></ul><div class="link-row" id="modalLink"></div><div class="spec-text" id="modalSpec"><strong>Специализация:</strong> <span id="specText">—</span></div><button class="btn-primary" id="modalActionBtn">Перейти →</button></div></div>
+
     </div>
+
+    <script>
+        // ============================================================
+        // 1. ЮНИТ-ЭКОНОМИКА
+        // ============================================================
+        function calcUnit() {
+            const buy = parseFloat(document.getElementById('priceBuy').value) || 0;
+            const sell = parseFloat(document.getElementById('priceSell').value) || 0;
+            const log = parseFloat(document.getElementById('logistics').value) || 0;
+            const commPct = parseFloat(document.getElementById('commission').value) || 0;
+            const ad = parseFloat(document.getElementById('advertising').value) || 0;
+
+            const commissionRub = sell * (commPct / 100);
+            const totalCost = buy + log + commissionRub + ad;
+            const margin = sell - totalCost;
+            const roi = totalCost > 0 ? (margin / totalCost) * 100 : 0;
+
+            const el = document.getElementById('resultMargin');
+            const roiEl = document.getElementById('resultROI');
+            el.textContent = margin.toFixed(2) + ' ₽';
+            el.className = 'result ' + (margin >= 0 ? 'green' : 'red');
+            roiEl.textContent = roi.toFixed(1) + '%';
+        }
+
+        // Автопересчёт при изменении полей
+        document.querySelectorAll('#unitCalc input').forEach(inp => inp.addEventListener('input', calcUnit));
+        calcUnit();
+
+        // ============================================================
+        // 2. ИСТОРИЯ (LocalStorage)
+        // ============================================================
+        function getHistory() {
+            try {
+                return JSON.parse(localStorage.getItem('history')) || [];
+            } catch { return []; }
+        }
+
+        function renderHistory() {
+            const list = document.getElementById('historyList');
+            const data = getHistory();
+            list.innerHTML = '';
+            if (data.length === 0) {
+                list.innerHTML = '<li style="color:#8a9bb5; justify-content:center;">Пока нет записей</li>';
+                return;
+            }
+            data.slice().reverse().forEach((item, idx) => {
+                const li = document.createElement('li');
+                li.innerHTML = `
+                    <span><strong>${item.name || 'Анализ'}</strong> — ${item.desc || 'Маржа: ' + item.margin + ' ₽, ROI: ' + item.roi + '%'}</span>
+                    <button class="del-btn" data-idx="${data.length - 1 - idx}">✕</button>
+                `;
+                li.querySelector('.del-btn').addEventListener('click', function() {
+                    const i = parseInt(this.dataset.idx);
+                    const hist = getHistory();
+                    hist.splice(i, 1);
+                    localStorage.setItem('history', JSON.stringify(hist));
+                    renderHistory();
+                });
+                list.appendChild(li);
+            });
+        }
+
+        function saveHistory() {
+            const buy = document.getElementById('priceBuy').value || 0;
+            const sell = document.getElementById('priceSell').value || 0;
+            const marginEl = document.getElementById('resultMargin');
+            const roiEl = document.getElementById('resultROI');
+            const margin = marginEl.textContent;
+            const roi = roiEl.textContent;
+
+            const entry = {
+                name: 'Анализ товара',
+                desc: `Закуп ${buy} ₽ → Продажа ${sell} ₽, маржа ${margin}, ROI ${roi}`,
+                margin: margin,
+                roi: roi,
+                date: new Date().toLocaleString()
+            };
+            const hist = getHistory();
+            hist.push(entry);
+            localStorage.setItem('history', JSON.stringify(hist));
+            renderHistory();
+            alert('✅ Сохранено в историю (локально)');
+        }
+
+        function clearHistory() {
+            if (confirm('Удалить всю историю?')) {
+                localStorage.removeItem('history');
+                renderHistory();
+            }
+        }
+
+        // ============================================================
+        // 3. МОДАЛЬНОЕ ОКНО
+        // ============================================================
+        const blocksData = {
+            1: {
+                title: 'Блок 1 · Китай',
+                sub: 'Инструменты для поиска в Китае',
+                tools: [{ name: 'Aliprice', desc: 'Поиск по картинке, цена, поставщики' }, { name: '1688 Помощник', desc: 'Перевод в ₽, вес, комиссия' }],
+                link: 'https://www.aliprice.com/',
+                spec: 'Специализация: поиск по картинке, сравнение цен. Качество: высокое.',
+                actionText: 'Перейти к Aliprice →'
+            },
+            2: {
+                title: 'Блок 2 · Ozon',
+                sub: 'Аналитика маркетплейса',
+                tools: [{ name: 'Маяк', desc: 'Выручка, заказы, динамика' }, { name: 'MPStats', desc: 'Аналитика ниш' }],
+                link: 'https://mpstats.ru/',
+                spec: 'Специализация: аналитика Ozon. Качество: высокая точность.',
+                actionText: 'Перейти к MPStats →'
+            },
+            3: {
+                title: 'Блок 3 · Google Gemini',
+                sub: 'Главный AI-аналитик',
+                tools: [{ name: '⭐ Google Gemini', desc: 'Расчёт ROI, SWOT, стратегия' }, { name: 'GPT-4o', desc: 'Альтернатива' }],
+                link: 'https://gemini.google.com/',
+                spec: 'Специализация: бизнес-аналитика. Качество: топ-3 LLM.',
+                actionText: 'Перейти к Gemini →'
+            },
+            4: {
+                title: 'Финальный вердикт',
+                sub: 'Решение по товару',
+                tools: [{ name: 'ROI', desc: 'Чистая доходность' }, { name: 'SWOT', desc: 'Анализ конкурентов' }],
+                link: '#',
+                spec: 'Основан на данных блоков 1-3.',
+                actionText: 'Начать новый анализ →'
+            }
+        };
+
+        document.querySelectorAll('.summary-item').forEach(el => {
+            el.addEventListener('click', function() {
+                const data = blocksData[this.dataset.block];
+                if (!data) return;
+                document.getElementById('modalTitle').textContent = data.title;
+                document.getElementById('modalSub').textContent = data.sub;
+                const list = document.getElementById('modalList');
+                list.innerHTML = '';
+                data.tools.forEach(t => {
+                    const li = document.createElement('li');
+                    li.innerHTML = `<strong>${t.name}</strong> <span class="desc">${t.desc}</span>`;
+                    list.appendChild(li);
+                });
+                document.getElementById('modalLink').innerHTML = data.link && data.link !== '#' ? `<a href="${data.link}" target="_blank">${data.link.replace(/^https?:\/\//, '')}</a>` : '';
+                document.getElementById('specText').textContent = data.spec;
+                const btn = document.getElementById('modalActionBtn');
+                btn.textContent = data.actionText || 'Перейти →';
+                btn.onclick = () => { if (data.link && data.link !== '#') window.open(data.link, '_blank'); else document.getElementById('modal').classList.remove('active'); };
+                document.getElementById('modal').classList.add('active');
+            });
+        });
+
+        document.getElementById('modalCloseBtn').addEventListener('click', () => document.getElementById('modal').classList.remove('active'));
+        document.getElementById('modal').addEventListener('click', e => { if (e.target === e.currentTarget) document.getElementById('modal').classList.remove('active'); });
+        document.addEventListener('keydown', e => { if (e.key === 'Escape') document.getElementById('modal').classList.remove('active'); });
+
+        // ============================================================
+        // 4. ОТПРАВКА В TELEGRAM (ПРОТОТИП)
+        // ============================================================
+        // Кнопка отправки добавляется динамически в историю
+        // Но мы добавим отдельную кнопку в калькулятор
+        const sendBtn = document.createElement('button');
+        sendBtn.className = 'btn-secondary';
+        sendBtn.style.background = '#0088cc';
+        sendBtn.style.marginLeft = '10px';
+        sendBtn.textContent = '📤 Отправить в Telegram';
+        sendBtn.onclick = function() {
+            const buy = document.getElementById('priceBuy').value;
+            const sell = document.getElementById('priceSell').value;
+            const margin = document.getElementById('resultMargin').textContent;
+            const roi = document.getElementById('resultROI').textContent;
+            const text = `📊 *Отчёт по товару*%0AЗакуп: ${buy} ₽%0AПродажа: ${sell} ₽%0AМаржа: ${margin}%0AROI: ${roi}`;
+            // Вставляем сюда ID твоего бота (потом заменишь)
+            const botToken = 'YOUR_BOT_TOKEN';
+            const chatId = 'YOUR_CHAT_ID';
+            if (botToken === 'YOUR_BOT_TOKEN') {
+                alert('⚠️ Вставь свои BOT_TOKEN и CHAT_ID в код, чтобы отправляло в Telegram. Пока что просто копируй текст:\n\n' + text.replace(/%0A/g, '\n'));
+            } else {
+                window.open(`https://api.telegram.org/bot${botToken}/sendMessage?chat_id=${chatId}&text=${text}&parse_mode=Markdown`, '_blank');
+            }
+        };
+        document.querySelector('.unit-econ .btn-secondary:last-child').after(sendBtn);
+
+        // ============================================================
+        // 5. СТАРТ
+        // ============================================================
+        renderHistory();
+    </script>
 </body>
 </html>
