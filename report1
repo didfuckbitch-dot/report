@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI‑аналитик для Озон / Китай</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #eef1f5;
+            font-family: 'Segoe UI', Roboto, system-ui, sans-serif;
+            padding: 40px 20px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .container {
+            max-width: 1200px;
+            width: 100%;
+            background: white;
+            border-radius: 28px;
+            padding: 40px 35px;
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.07);
+        }
+
+        h1 {
+            font-size: 28px;
+            font-weight: 700;
+            color: #0a0a0a;
+            margin-bottom: 6px;
+        }
+
+        .subhead {
+            color: #5e5e5e;
+            font-size: 16px;
+            border-bottom: 2px solid #eef0f2;
+            padding-bottom: 20px;
+            margin-bottom: 36px;
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+        }
+
+        .subhead span {
+            background: #f0f7ff;
+            color: #0066cc;
+            padding: 4px 14px;
+            border-radius: 40px;
+            font-weight: 500;
+            font-size: 14px;
+        }
+
+        /* ===== СХЕМА ===== */
+        .schema-block {
+            background: #f8faff;
+            border-radius: 20px;
+            padding: 30px 25px;
+            margin-bottom: 48px;
+            border: 1px solid #e3e9f2;
+        }
+
+        .schema-title {
+            font-weight: 600;
+            font-size: 18px;
+            margin-bottom: 22px;
+            color: #121212;
+        }
+
+        .schema-grid {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 16px 30px;
+        }
+
+        .schema-card {
+            background: white;
+            border-radius: 16px;
+            padding: 18px 22px;
+            flex: 1 1 220px;
+            min-width: 190px;
+            border: 1px solid #e3e8f0;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.02);
+        }
+
+        .schema-card.highlight {
+            border-color: #b0c8ff;
+            background: #f4f9ff;
+        }
+
+        .schema-card strong {
+            display: block;
+            font-size: 15px;
+            color: #0b1b33;
+            margin-bottom: 8px;
+        }
+
+        .schema-card ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            font-size: 14px;
+            color: #2c3a4f;
+        }
+
+        .schema-card ul li {
+            padding: 3px 0 3px 18px;
+            position: relative;
+        }
+
+        .schema-card ul li::before {
+            content: "•";
+            position: absolute;
+            left: 0;
+            color: #2a6eff;
+            font-weight: 700;
+        }
+
+        .arrow-symbol {
+            font-size: 28px;
+            color: #8b9ab5;
+            align-self: center;
+            line-height: 1;
+        }
+
+        .verdict-box {
+            margin-top: 20px;
+            background: #e6f0ff;
+            border-radius: 40px;
+            padding: 10px 32px;
+            font-weight: 600;
+            color: #003d99;
+            border: 1px dashed #2a6eff;
+            display: inline-block;
+            text-align: center;
+            width: auto;
+        }
+
+        /* ===== ТАБЛИЦА ===== */
+        .table-wrap {
+            overflow-x: auto;
+            margin: 32px 0 44px 0;
+            border-radius: 18px;
+            border: 1px solid #e2e8f0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 14px;
+            min-width: 600px;
+        }
+
+        th {
+            background: #f2f6fd;
+            color: #0e1e3a;
+            font-weight: 600;
+            padding: 16px 14px;
+            text-align: center;
+            border-bottom: 2px solid #d0d9e8;
+            font-size: 15px;
+        }
+
+        td {
+            padding: 14px 12px;
+            vertical-align: top;
+            border-right: 1px solid #e6ebf3;
+            border-bottom: 1px solid #eef2f8;
+            background: white;
+        }
+
+        td:last-child {
+            border-right: none;
+        }
+
+        td ul {
+            margin: 0;
+            padding-left: 18px;
+        }
+
+        td ul li {
+            margin-bottom: 6px;
+        }
+
+        .tool-tag {
+            display: inline-block;
+            background: #eef3fc;
+            padding: 2px 12px;
+            border-radius: 30px;
+            font-size: 12px;
+            font-weight: 500;
+            color: #1d4b8f;
+            margin: 8px 4px 4px 0;
+        }
+
+        /* ===== СВОДКА ===== */
+        .summary-block {
+            background: #fafcff;
+            border-radius: 18px;
+            padding: 24px 28px;
+            border: 1px solid #e6ecf6;
+            margin-top: 12px;
+        }
+
+        .summary-block h3 {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 14px;
+            color: #0a1a2f;
+        }
+
+        .summary-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+        }
+
+        .summary-item {
+            background: white;
+            border-radius: 12px;
+            padding: 14px 16px;
+            border: 1px solid #eef2f8;
+        }
+
+        .summary-item .label {
+            font-size: 12px;
+            text-transform: uppercase;
+            color: #6a7d99;
+            letter-spacing: 0.3px;
+        }
+
+        .summary-item .value {
+            font-weight: 600;
+            font-size: 15px;
+            color: #0b1b33;
+            margin-top: 4px;
+        }
+
+        hr {
+            margin: 36px 0 10px 0;
+            border: none;
+            border-top: 2px solid #eef2f7;
+        }
+
+        @media (max-width: 700px) {
+            .container {
+                padding: 20px 14px;
+            }
+            th,
+            td {
+                padding: 10px 8px;
+                font-size: 13px;
+            }
+            .schema-card {
+                min-width: 140px;
+                padding: 14px 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+
+        <h1>🧠 AI-аналитик для Озон / Китай</h1>
+        <div class="subhead">
+            <span>Схема · Таблица · Сводка</span>
+            <span>v1.1</span>
+        </div>
+
+        <!-- ========= СХЕМА (методы и что берем) ========= -->
+        <div class="schema-block">
+            <div class="schema-title">📊 Схема — что делаем и что берём</div>
+
+            <div style="display:flex; flex-wrap:wrap; justify-content:center; align-items:center; gap:8px 20px;">
+                <div class="schema-card">
+                    <strong>🔍 1. ВХОД</strong>
+                    <ul>
+                        <li>Товар / идея</li>
+                        <li>Фото или ссылка</li>
+                        <li>Бюджет (опционально)</li>
+                    </ul>
+                    <div style="margin-top:8px; font-size:13px; color:#4d637f; background:#f2f6fd; padding:4px 10px; border-radius:8px;">
+                        Метод: ручной ввод / загрузка
+                    </div>
+                </div>
+
+                <div class="arrow-symbol">→</div>
+
+                <div class="schema-card">
+                    <strong>🏷️ 2. КИТАЙ</strong>
+                    <ul>
+                        <li>Цена закупки (₽)</li>
+                        <li>Вес / объём (кг/м³)</li>
+                        <li>Фото / ссылка аналога</li>
+                    </ul>
+                    <div style="margin-top:8px; font-size:13px; color:#4d637f; background:#f2f6fd; padding:4px 10px; border-radius:8px;">
+                        Метод: Aliprice / 1688 Помощник
+                    </div>
+                </div>
+
+                <div class="arrow-symbol">→</div>
+
+                <div class="schema-card">
+                    <strong>📈 3. OZON</strong>
+                    <ul>
+                        <li>Объём продаж ниши (₽)</li>
+                        <li>Средний чек / цены</li>
+                        <li>Топ-конкуренты</li>
+                    </ul>
+                    <div style="margin-top:8px; font-size:13px; color:#4d637f; background:#f2f6fd; padding:4px 10px; border-radius:8px;">
+                        Метод: Маяк / MPStats / API
+                    </div>
+                </div>
+
+                <div class="arrow-symbol">→</div>
+
+                <div class="schema-card highlight">
+                    <strong>🤖 4. AI-АНАЛИТИК</strong>
+                    <ul>
+                        <li>Чистый ROI и маржа</li>
+                        <li>SWOT-анализ</li>
+                        <li>Стратегия продвижения</li>
+                        <li>Финальный вердикт</li>
+                    </ul>
+                    <div style="margin-top:8px; font-size:13px; color:#4d637f; background:#f2f6fd; padding:4px 10px; border-radius:8px;">
+                        Метод: LLM + расчёты
+                    </div>
+                </div>
+            </div>
+
+            <div style="text-align:center; margin-top:20px;">
+                <div class="verdict-box">✅ РЕШЕНИЕ: брать / не брать</div>
+            </div>
+        </div>
+
+        <!-- ========= ТАБЛИЦА (инструменты по блокам) ========= -->
+        <h2 style="font-size:20px; font-weight:700; margin-bottom:12px;">📋 Таблица — инструменты к блокам</h2>
+        <div class="table-wrap">
+            <table>
+                <thead>
+                    <tr>
+                        <th>БЛОК 1<br><span style="font-weight:400; font-size:13px;">Китайский рынок</span></th>
+                        <th>БЛОК 2<br><span style="font-weight:400; font-size:13px;">Аналитика Ozon</span></th>
+                        <th>БЛОК 3<br><span style="font-weight:400; font-size:13px;">AI-аналитик</span></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <ul>
+                                <li>Aliprice — поиск по картинке, цена, поставщики</li>
+                                <li>1688 Помощник — перевод в ₽, вес, комиссия</li>
+                                <li>Alibaba Global — опт с англоязычными</li>
+                            </ul>
+                            <div style="margin-top:10px;">
+                                <span class="tool-tag">🔧 Парсинг</span>
+                                <span class="tool-tag">📸 OCR</span>
+                            </div>
+                        </td>
+                        <td>
+                            <ul>
+                                <li>Маяк (Mayak) — выручка, заказы, динамика</li>
+                                <li>MPStats — аналитика ниш, средний чек</li>
+                                <li>Moneyplace — статистика карточек</li>
+                                <li>Ozon Seller API — официальный доступ</li>
+                            </ul>
+                            <div style="margin-top:10px;">
+                                <span class="tool-tag">📊 API</span>
+                                <span class="tool-tag">📈 Дашборды</span>
+                            </div>
+                        </td>
+                        <td>
+                            <ul>
+                                <li>OpenAI GPT-4o / DeepSeek — расчёты, SWOT</li>
+                                <li>Локальная LLM (Qwen, Mistral) — через Ollama</li>
+                                <li>Python + Google Colab — свой скрипт</li>
+                            </ul>
+                            <div style="margin-top:10px;">
+                                <span class="tool-tag">🧠 LLM</span>
+                                <span class="tool-tag">📐 Расчёты</span>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- ========= ОБЩАЯ СВОДКА ========= -->
+        <div class="summary-block">
+            <h3>📌 Общая сводка</h3>
+            <div class="summary-grid">
+                <div class="summary-item">
+                    <div class="label">Блок 1 · Китай</div>
+                    <div class="value">Aliprice / 1688 Помощник</div>
+                    <div style="font-size:13px; color:#4d637f; margin-top:2px;">Цена, вес, фото</div>
+                </div>
+                <div class="summary-item">
+                    <div class="label">Блок 2 · Ozon</div>
+                    <div class="value">Маяк / MPStats / API</div>
+                    <div style="font-size:13px; color:#4d637f; margin-top:2px;">Продажи, чек, конкуренты</div>
+                </div>
+                <div class="summary-item">
+                    <div class="label">Блок 3 · AI</div>
+                    <div class="value">GPT / локальная LLM</div>
+                    <div style="font-size:13px; color:#4d637f; margin-top:2px;">ROI, SWOT, стратегия</div>
+                </div>
+                <div class="summary-item" style="background:#f4f9ff; border-color:#b0c8ff;">
+                    <div class="label">Финальный выход</div>
+                    <div class="value">✅ Вердикт: брать / не брать</div>
+                    <div style="font-size:13px; color:#003d99; margin-top:2px;">На основе всех данных</div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</body>
+</html>
